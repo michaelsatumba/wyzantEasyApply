@@ -37,7 +37,7 @@ jobsButton.click()
 print("jobs page")
 
 i = 0
-while i < 20:
+while i < 50:
     firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
     firstJob.click()
 
@@ -53,6 +53,11 @@ while i < 20:
     except NoSuchElementException:
         print("No option with text '{}' found in the select tag.".format(subjectText))
 
+    try:
+        checkbox = driver.find_element_by_xpath("//input[@type='checkbox']")
+        checkbox.click()
+    except:
+        pass
 
     submitApplication = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
     submitApplication.click()
