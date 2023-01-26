@@ -9,5 +9,6 @@
 4. Do not commit to github
 5. ```python3 main.py```
 
-## Youtube Video:
-[Youtube Video]https://www.youtube.com/watch?v=cxvrES7Cpsk
+## Youtube Video:[Youtube Video](https://www.youtube.com/watch?v=cxvrES7Cpsk)
+
+
