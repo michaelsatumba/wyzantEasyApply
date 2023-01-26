@@ -4,68 +4,28 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
 
-browser = webdriver.Chrome()
-
-browser.get('https://www.wyzant.com/login')
-
+# load login credentials from .env file
 from dotenv import load_dotenv
 load_dotenv()
-
 import os
-#print(os.environ)
 nameInsert = os.getenv("NAME")
 passwordInsert = os.getenv("PASSWORD")
-# print(nameInsert)
-# print(passwordInsert)
 
-username = browser.find_element("xpath", '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[1]/input')
-username.send_keys(nameInsert)
+def login(browser):
+    browser.get('https://www.wyzant.com/login')
+    username = browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[1]/input')
+    username.send_keys(nameInsert)
+    password = browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[2]/input')
+    password.send_keys(passwordInsert)
+    login_button = browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button")
+    login_button.click()
+    print("logged in")
 
+def go_to_jobs_page(browser, wait):
+    jobs_button = wait.until(EC.presence_of_element_located((By.ID, "jobs-widget")))
+    jobs_button.click()
+    print("jobs page")
 
-password = browser.find_element("xpath", '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[2]/input')
-password.send_keys(passwordInsert)
-
-loginButton = browser.find_element("xpath", "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button")
-loginButton.click()
-print("logged in")
-
-
-wait = WebDriverWait(browser, 10)
-jobsButton = wait.until(EC.presence_of_element_located((By.ID, "jobs-widget")))
-jobsButton.click()
-
-print("jobs page")
-
-'''
-i = 0
-while i < 50:
-    firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
-    firstJob.click()
-
-    SubjectOne = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
-    subjectText = SubjectOne.text
-    # print(subjectText)
-
-    select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
-    choose = Select(select_element)
-
-    try:
-        choose.select_by_visible_text(subjectText)
-    except NoSuchElementException:
-        print("No option with text '{}' found in the select tag.".format(subjectText))
-
-    try:
-        checkbox = browser.find_element_by_xpath("//input[@type='checkbox']")
-        print("has checkbox")
-        checkbox.click()
-    except:
-        pass
-
-    submitApplication = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
-    submitApplication.click()
-    i += 1
-    print("applied to " + str(i) + " jobs")
-'''
 
 def click_job_details(browser, wait):
     first_job = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
@@ -96,6 +56,11 @@ def check_and_click_checkbox(browser, wait):
 def submit_application(browser, wait):
     submit_application = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
     submit_application.click()
+
+browser = webdriver.Chrome()
+wait = WebDriverWait(browser, 10)
+login(browser)
+go_to_jobs_page(browser, wait)
 
 i = 0
 while i < 50:
