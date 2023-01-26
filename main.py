@@ -30,10 +30,9 @@ wait = WebDriverWait(browser, 10)
 jobsButton = wait.until(EC.presence_of_element_located((By.ID, "jobs-widget")))
 jobsButton.click()
 
-
-
-wait = WebDriverWait(browser, 10)
 firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
 firstJob.click()
 
 
+selectButton = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
+selectButton.click()
