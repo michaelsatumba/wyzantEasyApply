@@ -36,6 +36,7 @@ jobsButton.click()
 
 print("jobs page")
 
+'''
 i = 0
 while i < 50:
     firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
@@ -54,7 +55,8 @@ while i < 50:
         print("No option with text '{}' found in the select tag.".format(subjectText))
 
     try:
-        checkbox = driver.find_element_by_xpath("//input[@type='checkbox']")
+        checkbox = browser.find_element_by_xpath("//input[@type='checkbox']")
+        print("has checkbox")
         checkbox.click()
     except:
         pass
@@ -63,4 +65,47 @@ while i < 50:
     submitApplication.click()
     i += 1
     print("applied to " + str(i) + " jobs")
+'''
+
+def click_job_details(browser, wait):
+    first_job = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
+    print("click job details")
+    first_job.click()
+
+def select_subject(browser, wait):
+    subject_one = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
+    subject_text = subject_one.text
+    select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
+    choose = Select(select_element)
+
+    try:
+        choose.select_by_visible_text(subject_text)
+        print("selected apprpriate template")
+    except NoSuchElementException:
+        print("No option with text '{}' found in the select tag.".format(subject_text))
+
+def check_and_click_checkbox(browser, wait):
+    try:
+        checkbox = wait.until(EC.presence_of_element_located((By.ID, "agree_partner_hourly_rate")))
+        #//*[@id="agree_partner_hourly_rate"]
+        #/html/body/div[1]/div[1]/form/div[5]/div[3]/input
+        print("checkbox found")
+        checkbox.click()
+    except:
+        print("no checkbox")
+        pass
+
+def submit_application(browser, wait):
+    submit_application = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
+    submit_application.click()
+
+i = 0
+while i < 50:
+    click_job_details(browser, wait)
+    select_subject(browser, wait)
+    check_and_click_checkbox(browser, wait)
+    submit_application(browser, wait)
+    i += 1
+    print("applied to " + str(i) + " jobs")
+
 
