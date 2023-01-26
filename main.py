@@ -27,27 +27,35 @@ password.send_keys(passwordInsert)
 
 loginButton = browser.find_element("xpath", "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button")
 loginButton.click()
+print("logged in")
+
 
 wait = WebDriverWait(browser, 10)
 jobsButton = wait.until(EC.presence_of_element_located((By.ID, "jobs-widget")))
 jobsButton.click()
 
-firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
-firstJob.click()
+print("jobs page")
 
-SubjectOne = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
-subjectText = SubjectOne.text
-# print(subjectText)
+i = 0
+while i < 10:
+    firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
+    firstJob.click()
 
-select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
-choose = Select(select_element)
+    SubjectOne = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
+    subjectText = SubjectOne.text
+    # print(subjectText)
 
-try:
-    choose.select_by_visible_text(subjectText)
-except NoSuchElementException:
-    print("No option with text '{}' found in the select tag.".format(subjectText))
+    select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
+    choose = Select(select_element)
+
+    try:
+        choose.select_by_visible_text(subjectText)
+    except NoSuchElementException:
+        print("No option with text '{}' found in the select tag.".format(subjectText))
 
 
-submitApplication = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
-submitApplication.click()         
+    submitApplication = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
+    submitApplication.click()
+    i += 1
+    print("applied to " + str(i) + " jobs")
 
