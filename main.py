@@ -37,7 +37,7 @@ jobsButton.click()
 print("jobs page")
 
 i = 0
-while i < 10:
+while i < 20:
     firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
     firstJob.click()
 
