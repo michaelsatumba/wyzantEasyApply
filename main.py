@@ -37,7 +37,7 @@ firstJob.click()
 
 SubjectOne = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
 subjectText = SubjectOne.text
-print(subjectText)
+# print(subjectText)
 
 select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
 choose = Select(select_element)
@@ -48,6 +48,6 @@ except NoSuchElementException:
     print("No option with text '{}' found in the select tag.".format(subjectText))
 
 
-
-                
+submitApplication = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
+submitApplication.click()         
 
