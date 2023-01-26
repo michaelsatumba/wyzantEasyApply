@@ -1,4 +1,6 @@
 from selenium import webdriver
+from selenium.webdriver.common.by import By
+
 browser = webdriver.Chrome()
 
 browser.get('https://www.wyzant.com/login')
@@ -22,3 +24,9 @@ password.send_keys(passwordInsert)
 
 loginButton = browser.find_element("xpath", "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button")
 loginButton.click()
+
+jobsButton = browser.find_element(By.CSS_SELECTOR, "#jobs-widget > a")
+jobsButton.click()
+
+#/html/body/div[1]/div/div[2]/main/section[1]/div[2]/a
+#jobs-widget > a
