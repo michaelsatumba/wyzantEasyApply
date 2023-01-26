@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import Select
+
 browser = webdriver.Chrome()
 
 browser.get('https://www.wyzant.com/login')
@@ -33,6 +35,19 @@ jobsButton.click()
 firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
 firstJob.click()
 
+SubjectOne = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
+subjectText = SubjectOne.text
+print(subjectText)
 
-selectButton = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
-selectButton.click()
+select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
+choose = Select(select_element)
+
+try:
+    choose.select_by_visible_text(subjectText)
+except NoSuchElementException:
+    print("No option with text '{}' found in the select tag.".format(subjectText))
+
+
+
+                
+
