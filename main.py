@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 browser = webdriver.Chrome()
 
 browser.get('https://www.wyzant.com/login')
@@ -25,8 +26,14 @@ password.send_keys(passwordInsert)
 loginButton = browser.find_element("xpath", "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button")
 loginButton.click()
 
-jobsButton = browser.find_element(By.CSS_SELECTOR, "#jobs-widget > a")
+wait = WebDriverWait(browser, 10)
+jobsButton = wait.until(EC.presence_of_element_located((By.ID, "jobs-widget")))
 jobsButton.click()
 
-#/html/body/div[1]/div/div[2]/main/section[1]/div[2]/a
-#jobs-widget > a
+
+
+wait = WebDriverWait(browser, 10)
+firstJob = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
+firstJob.click()
+
+
