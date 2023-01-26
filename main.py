@@ -87,8 +87,6 @@ def select_subject(browser, wait):
 def check_and_click_checkbox(browser, wait):
     try:
         checkbox = wait.until(EC.presence_of_element_located((By.ID, "agree_partner_hourly_rate")))
-        #//*[@id="agree_partner_hourly_rate"]
-        #/html/body/div[1]/div[1]/form/div[5]/div[3]/input
         print("checkbox found")
         checkbox.click()
     except:
