@@ -45,18 +45,17 @@ def select_subject(browser, wait):
         print("No option with text '{}' found in the select tag.".format(subject_text))
 
 # TODO: get name of student and insert into message
-'''
+
 def get_name(browser, wait):
     name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4")))
     name_text = name.text
-    lowercase_string = name_text.lower()
-    uppercase_first_letter_string = lowercase_string.capitalize()
-    print(upercase_first_letter_string)
-    
+    formatted_name = name_text.capitalize()
+    print(formatted_name)
+
     text_area = wait.until(EC.presence_of_element_located((By.ID, "personal_message")))
     text_area.click()
-    text_area.send_keys("Hello" + uppercase_first_letter_string + ",")
-'''
+    text_area.send_keys(f"Hello {formatted_name},\n")
+
 def check_and_click_checkbox(browser, wait):
     try:
         checkbox = wait.until(EC.presence_of_element_located((By.ID, "agree_partner_hourly_rate")))
@@ -76,10 +75,10 @@ login(browser)
 go_to_jobs_page(browser, wait)
 
 i = 0
-while i < 50:
+while i < 1:
     click_job_details(browser, wait)
     select_subject(browser, wait)
-    #get_name(browser, wait)
+    get_name(browser, wait)
     check_and_click_checkbox(browser, wait)
     submit_application(browser, wait)
     i += 1
