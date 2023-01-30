@@ -1,91 +1,72 @@
 import os
-# FOR DEBUGGING: import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
-
-# load login credentials from .env file
 from dotenv import load_dotenv
+
+# Load login credentials from .env file
 load_dotenv()
-nameInsert = os.getenv("NAME")
-passwordInsert = os.getenv("PASSWORD")
+username = os.getenv("NAME")
+password = os.getenv("PASSWORD")
 
-def login(browser):
+# Login function
+def login(browser, username, password):
     browser.get('https://www.wyzant.com/login')
-    username = browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[1]/input')
-    username.send_keys(nameInsert)
-    password = browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[2]/input')
-    password.send_keys(passwordInsert)
-    login_button = browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button")
-    login_button.click()
-    # print("logged in")
+    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[1]/input').send_keys(username)
+    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[2]/input').send_keys(password)
+    browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button").click()
 
+# Go to jobs page function
 def go_to_jobs_page(browser, wait):
-    jobs_button = wait.until(EC.presence_of_element_located((By.ID, "jobs-widget")))
-    jobs_button.click()
-    # print("jobs page")
+    wait.until(EC.presence_of_element_located((By.ID, "jobs-widget"))).click()
 
-
+# Click job details function
 def click_job_details(browser, wait):
-    first_job = wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link")))
-    # print("click job details")
-    first_job.click()
+    wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link"))).click()
 
+# Select subject function
 def select_subject(browser, wait):
-    subject_one = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
-    subject_text = subject_one.text
+    subject = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1"))).text
     select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
-    choose = Select(select_element)
+    Select(select_element).select_by_visible_text(subject)
 
-    try:
-        choose.select_by_visible_text(subject_text)
-        # print("selected apprpriate template")
-    except NoSuchElementException:
-        print("No option with text '{}' found in the select tag.".format(subject_text))
-
+# Get name and format it function
 def get_name(browser, wait):
-    name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4")))
-    name_text = name.text
-    formatted_name = name_text.capitalize()
-    # print(formatted_name)
-
+    name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4"))).text
+    formatted_name = name.capitalize()
     text_area = wait.until(EC.presence_of_element_located((By.ID, "personal_message")))
-    text_area.click()
     current_text = text_area.get_attribute("value")
-    new_text = f"Hello {formatted_name}! " + current_text
     text_area.clear()
-    text_area.send_keys(new_text)
+    text_area.send_keys(f"Hello {formatted_name}! " + current_text)
 
-
-
+# Check and click checkbox function
 def check_and_click_checkbox(browser, wait):
     try:
         checkbox = wait.until(EC.presence_of_element_located((By.ID, "agree_partner_hourly_rate")))
-        # print("checkbox found")
         checkbox.click()
     except:
-        # print("no checkbox")
         pass
 
+# Submit application function
 def submit_application(browser, wait):
     submit_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
     submit_button.click()
 
+# Main function
 browser = webdriver.Chrome()
 wait = WebDriverWait(browser, 10)
-login(browser)
+login(browser, username, password)
 go_to_jobs_page(browser, wait)
 
-i = 0
-while i < 50:
+# Loop through jobs
+for i in range(50):
     click_job_details(browser, wait)
     select_subject(browser, wait)
     get_name(browser, wait)
     check_and_click_checkbox(browser, wait)
     submit_application(browser, wait)
-    i += 1
-    print("applied to " + str(i) + " jobs")
+    print("Applied to job", i + 1)
 
 
