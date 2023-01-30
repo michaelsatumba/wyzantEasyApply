@@ -62,11 +62,16 @@ go_to_jobs_page(browser, wait)
 
 # Loop through jobs
 for i in range(50):
-    click_job_details(browser, wait)
-    select_subject(browser, wait)
-    get_name(browser, wait)
-    check_and_click_checkbox(browser, wait)
-    submit_application(browser, wait)
-    print("Applied to job", i + 1)
+    try:
+        click_job_details(browser, wait)
+        select_subject(browser, wait)
+        get_name(browser, wait)
+        check_and_click_checkbox(browser, wait)
+        submit_application(browser, wait)
+        print("Applied to job", i + 1)
+    except:
+        print("No more jobs to apply for.")
+        break
+
 
 
