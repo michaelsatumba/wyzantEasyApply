@@ -1,4 +1,5 @@
 import os
+# FOR DEBUGGING: import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -44,26 +45,28 @@ def select_subject(browser, wait):
     except NoSuchElementException:
         print("No option with text '{}' found in the select tag.".format(subject_text))
 
-# TODO: get name of student and insert into message
-'''
 def get_name(browser, wait):
     name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4")))
     name_text = name.text
     formatted_name = name_text.capitalize()
-    print(formatted_name)
+    # print(formatted_name)
 
     text_area = wait.until(EC.presence_of_element_located((By.ID, "personal_message")))
     text_area.click()
-    text_area.send_keys(f"Hello {formatted_name},\n")
-'''
+    current_text = text_area.get_attribute("value")
+    new_text = f"Hello {formatted_name}! " + current_text
+    text_area.clear()
+    text_area.send_keys(new_text)
+
+
 
 def check_and_click_checkbox(browser, wait):
     try:
         checkbox = wait.until(EC.presence_of_element_located((By.ID, "agree_partner_hourly_rate")))
-        print("checkbox found")
+        # print("checkbox found")
         checkbox.click()
     except:
-        print("no checkbox")
+        # print("no checkbox")
         pass
 
 def submit_application(browser, wait):
@@ -76,7 +79,7 @@ login(browser)
 go_to_jobs_page(browser, wait)
 
 i = 0
-while i < 1:
+while i < 50:
     click_job_details(browser, wait)
     select_subject(browser, wait)
     get_name(browser, wait)
