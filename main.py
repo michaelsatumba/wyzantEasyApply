@@ -45,7 +45,7 @@ def select_subject(browser, wait):
         print("No option with text '{}' found in the select tag.".format(subject_text))
 
 # TODO: get name of student and insert into message
-
+'''
 def get_name(browser, wait):
     name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4")))
     name_text = name.text
@@ -55,6 +55,7 @@ def get_name(browser, wait):
     text_area = wait.until(EC.presence_of_element_located((By.ID, "personal_message")))
     text_area.click()
     text_area.send_keys(f"Hello {formatted_name},\n")
+'''
 
 def check_and_click_checkbox(browser, wait):
     try:
