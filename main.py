@@ -2,6 +2,7 @@
 import sys
 import os
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -58,34 +59,33 @@ def get_name(browser, wait):
     text_area.clear()
     text_area.send_keys(f"Hello {formatted_name}! " + current_text)
     print("Got name and formatted it")
-
+(By.CSS_SELECTOR, "#agree_partner_hourly_rate"),
 # Check and click checkbox function
 def check_and_click_checkbox(browser, wait):
     locators = [
-        (By.ID, "agree_partner_hourly_rate"),
-        (By.XPATH, "/html/body/div[1]/div[1]/form/div[5]/div[3]/input"),
         (By.CSS_SELECTOR, "#agree_partner_hourly_rate"),
+        (By.ID, "agree_partner_hourly_rate"),
     ]
 
-    checkbox = None
     for locator in locators:
+        checkbox = None
         try:
             checkbox = wait.until(EC.presence_of_element_located(locator))
-            print(f"Checkbox found using {locator[0]}.")
             break
-        except Exception as e:
-            print(f"Checkbox not found using {locator[0]}.")
-            print(f"Exception: {e}")
+        except:
             pass
-
-    if checkbox is not None:
-        try:
-            checkbox.click()
-            print("Checkbox clicked.")
-        except Exception as e:
-            print(f"Could not click the checkbox. Exception: {e}")
-    else:
+    
+    if not checkbox:
         print("Checkbox not found.")
+        return
+
+    try:
+        checkbox.click()
+        print(f"Clicked element with tag name '{checkbox.tag_name}' and attribute '{checkbox.get_attribute('name')}'")
+    except Exception as e:
+        print(f"Could not click the checkbox. Exception: {e}")
+
+
 
 
   
@@ -96,8 +96,10 @@ def submit_application(browser, wait):
     submit_button.click()
 
 # Main function
-browser = webdriver.Chrome()
-wait = WebDriverWait(browser, 10)
+options = Options()
+options.add_argument("--headless")
+browser = webdriver.Chrome(options=options)
+wait = WebDriverWait(browser, 2)
 login(browser, username, password)
 go_to_jobs_page(browser, wait)
 
@@ -111,5 +113,5 @@ for i in range(50):
     print("Applied to job", i + 1)
 
 
-
+browser.quit()
 
