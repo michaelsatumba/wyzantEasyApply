@@ -61,16 +61,33 @@ def get_name(browser, wait):
 
 # Check and click checkbox function
 def check_and_click_checkbox(browser, wait):
-    try:
-        # checkbox = wait.until(EC.presence_of_element_located((By.ID, "agree_partner_hourly_rate")))
-        # checkbox = wait.until(EC.presence_of_element_located((By.XPATH, "/html/body/div[1]/div[1]/form/div[5]/div[3]/input")))
-        checkbox = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#agree_partner_hourly_rate")))
-        print("Checkbox found.")
-        checkbox.click()
-        print("Checkbox clicked.")
-    except:
+    locators = [
+        (By.ID, "agree_partner_hourly_rate"),
+        (By.XPATH, "/html/body/div[1]/div[1]/form/div[5]/div[3]/input"),
+        (By.CSS_SELECTOR, "#agree_partner_hourly_rate"),
+    ]
+
+    checkbox = None
+    for locator in locators:
+        try:
+            checkbox = wait.until(EC.presence_of_element_located(locator))
+            print(f"Checkbox found using {locator[0]}.")
+            break
+        except Exception as e:
+            print(f"Checkbox not found using {locator[0]}.")
+            print(f"Exception: {e}")
+            pass
+
+    if checkbox is not None:
+        try:
+            checkbox.click()
+            print("Checkbox clicked.")
+        except Exception as e:
+            print(f"Could not click the checkbox. Exception: {e}")
+    else:
         print("Checkbox not found.")
-        pass
+
+
   
 
 # Submit application function
