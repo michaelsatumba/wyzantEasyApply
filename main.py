@@ -59,23 +59,47 @@ def get_name(browser, wait):
     text_area.clear()
     text_area.send_keys(f"Hello {formatted_name}! " + current_text)
     print("Got name and formatted it")
-(By.CSS_SELECTOR, "#agree_partner_hourly_rate"),
-# Check and click checkbox function
-def check_and_click_checkbox(browser, wait):
-    locators = [
-        (By.CSS_SELECTOR, "#agree_partner_hourly_rate"),
-        (By.ID, "agree_partner_hourly_rate"),
-    ]
 
-    for locator in locators:
-        checkbox = None
-        try:
-            checkbox = wait.until(EC.presence_of_element_located(locator))
-            break
-        except:
-            pass
+# Check and click checkbox function
+# def check_and_click_checkbox(browser, wait):
+#     locators = [
+#         (By.CSS_SELECTOR, "#agree_partner_hourly_rate"),
+#         (By.ID, "agree_partner_hourly_rate"),
+#     ]
+
+#     for locator in locators:
+#         if len(locator) == 0:
+#             print("Checkbox not found.")
+#             return
+#         else:
+#             checkbox = wait.until(EC.presence_of_element_located(locator))
+#             checkbox.click()
+#             break
+        
+# def check_and_click_checkbox(browser, wait):
+#     checkbox = None
+#     try:
+#         checkbox = wait.until(EC.presence_of_element_located(By.CSS_SELECTOR, "#agree_partner_hourly_rate"))
+#     except:
+#         pass
     
-    if not checkbox:
+#     if not checkbox:
+#         print("Checkbox not found.")
+#         return
+
+#     try:
+#         checkbox.click()
+#         print(f"Clicked element with tag name '{checkbox.tag_name}' and attribute '{checkbox.get_attribute('name')}'")
+#     except Exception as e:
+#         print(f"Could not click the checkbox. Exception: {e}")
+
+
+# TEST
+def check_and_click_checkbox(browser, wait):
+    checkbox = None
+    try:
+        checkbox = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#agree_partner_hourly_rate")))
+    except TimeoutException:
         print("Checkbox not found.")
         return
 
@@ -84,8 +108,6 @@ def check_and_click_checkbox(browser, wait):
         print(f"Clicked element with tag name '{checkbox.tag_name}' and attribute '{checkbox.get_attribute('name')}'")
     except Exception as e:
         print(f"Could not click the checkbox. Exception: {e}")
-
-
 
 
   
