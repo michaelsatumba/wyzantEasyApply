@@ -14,6 +14,12 @@ load_dotenv()
 username = os.getenv("NAME")
 password = os.getenv("PASSWORD")
 
+# Setup web driver
+options = Options()
+options.add_argument("--headless")
+browser = webdriver.Chrome(options=options)
+browser.implicitly_wait(3)
+
 # Login function
 def login(browser, username, password):
     browser.get('https://www.wyzant.com/login')
@@ -61,45 +67,11 @@ def get_name(browser, wait):
     print("Got name and formatted it")
 
 # Check and click checkbox function
-# def check_and_click_checkbox(browser, wait):
-#     locators = [
-#         (By.CSS_SELECTOR, "#agree_partner_hourly_rate"),
-#         (By.ID, "agree_partner_hourly_rate"),
-#     ]
-
-#     for locator in locators:
-#         if len(locator) == 0:
-#             print("Checkbox not found.")
-#             return
-#         else:
-#             checkbox = wait.until(EC.presence_of_element_located(locator))
-#             checkbox.click()
-#             break
-        
-# def check_and_click_checkbox(browser, wait):
-#     checkbox = None
-#     try:
-#         checkbox = wait.until(EC.presence_of_element_located(By.CSS_SELECTOR, "#agree_partner_hourly_rate"))
-#     except:
-#         pass
-    
-#     if not checkbox:
-#         print("Checkbox not found.")
-#         return
-
-#     try:
-#         checkbox.click()
-#         print(f"Clicked element with tag name '{checkbox.tag_name}' and attribute '{checkbox.get_attribute('name')}'")
-#     except Exception as e:
-#         print(f"Could not click the checkbox. Exception: {e}")
-
-
-# TEST
 def check_and_click_checkbox(browser, wait):
     checkbox = None
     try:
         checkbox = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#agree_partner_hourly_rate")))
-    except TimeoutException:
+    except:
         print("Checkbox not found.")
         return
 
@@ -118,10 +90,10 @@ def submit_application(browser, wait):
     submit_button.click()
 
 # Main function
-options = Options()
-options.add_argument("--headless")
-browser = webdriver.Chrome(options=options)
-wait = WebDriverWait(browser, 2)
+# options = Options()
+# options.add_argument("--headless")
+# browser = webdriver.Chrome(options=options)
+# wait = WebDriverWait(browser, 3)
 login(browser, username, password)
 go_to_jobs_page(browser, wait)
 
