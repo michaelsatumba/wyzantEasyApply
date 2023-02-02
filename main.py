@@ -30,13 +30,13 @@ def login(browser, username, password):
 
 # Go to jobs page function
 def go_to_jobs_page(browser):
-    browser.find_element(By.ID, "jobs-widget").click()
+    browser.find_element(By.CSS_SELECTOR, "#jobs-widget").click()
     print("Clicked jobs widget")
 
 # Click job details function
 def click_job_details(browser):
     try:
-        browser.find_element(By.CLASS_NAME, "job-details-link").click()
+        browser.find_element(By.CSS_SELECTOR, "#jobs-list > div:nth-child(1) > div > div > h3 > a").click()
         print("Clicked job details")
     except:
         print("No more jobs.")
@@ -45,9 +45,9 @@ def click_job_details(browser):
 
 # Select subject function
 def select_subject(browser):
-    subject_one = browser.find_element(By.TAG_NAME, "h1")
+    subject_one = browser.find_element(By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h1")
     subject_text = subject_one.text
-    select_element = browser.find_element(By.ID, "template_select")
+    select_element = browser.find_element(By.CSS_SELECTOR, "#template_select")
     choose = Select(select_element)
 
     try:
@@ -60,7 +60,7 @@ def select_subject(browser):
 def get_name(browser):
     name = browser.find_element(By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4").text
     formatted_name = name.capitalize()
-    text_area = browser.find_element(By.ID, "personal_message")
+    text_area = browser.find_element(By.CSS_SELECTOR, "#personal_message")
     current_text = text_area.get_attribute("value")
     text_area.clear()
     text_area.send_keys(f"Hello {formatted_name}! " + current_text)
