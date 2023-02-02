@@ -18,25 +18,25 @@ password = os.getenv("PASSWORD")
 options = Options()
 options.add_argument("--headless")
 browser = webdriver.Chrome(options=options)
-browser.implicitly_wait(3)
+browser.implicitly_wait(2)
 
 # Login function
 def login(browser, username, password):
     browser.get('https://www.wyzant.com/login')
     browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[1]/input').send_keys(username)
     browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[2]/input').send_keys(password)
-    browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/button").click()
+    browser.find_element(By.CSS_SELECTOR, "#sso_login-landing > form > button").click()
     print("Logged in")
 
 # Go to jobs page function
-def go_to_jobs_page(browser, wait):
-    wait.until(EC.presence_of_element_located((By.ID, "jobs-widget"))).click()
+def go_to_jobs_page(browser):
+    browser.find_element(By.ID, "jobs-widget").click()
     print("Clicked jobs widget")
 
 # Click job details function
-def click_job_details(browser, wait):
+def click_job_details(browser):
     try:
-        wait.until(EC.presence_of_element_located((By.CLASS_NAME, "job-details-link"))).click()
+        browser.find_element(By.CLASS_NAME, "job-details-link").click()
         print("Clicked job details")
     except:
         print("No more jobs.")
@@ -44,10 +44,10 @@ def click_job_details(browser, wait):
 
 
 # Select subject function
-def select_subject(browser, wait):
-    subject_one = wait.until(EC.presence_of_element_located((By.TAG_NAME, "h1")))
+def select_subject(browser):
+    subject_one = browser.find_element(By.TAG_NAME, "h1")
     subject_text = subject_one.text
-    select_element = wait.until(EC.presence_of_element_located((By.ID, "template_select")))
+    select_element = browser.find_element(By.ID, "template_select")
     choose = Select(select_element)
 
     try:
@@ -57,20 +57,20 @@ def select_subject(browser, wait):
         print("No option with text '{}' found in the select tag.".format(subject_text))
         
 # Get name and format it function
-def get_name(browser, wait):
-    name = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4"))).text
+def get_name(browser):
+    name = browser.find_element(By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4").text
     formatted_name = name.capitalize()
-    text_area = wait.until(EC.presence_of_element_located((By.ID, "personal_message")))
+    text_area = browser.find_element(By.ID, "personal_message")
     current_text = text_area.get_attribute("value")
     text_area.clear()
     text_area.send_keys(f"Hello {formatted_name}! " + current_text)
     print("Got name and formatted it")
 
 # Check and click checkbox function
-def check_and_click_checkbox(browser, wait):
+def check_and_click_checkbox(browser):
     checkbox = None
     try:
-        checkbox = wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, "#agree_partner_hourly_rate")))
+        checkbox = browser.find_element(By.CSS_SELECTOR, "#agree_partner_hourly_rate")
     except:
         print("Checkbox not found.")
         return
@@ -81,29 +81,24 @@ def check_and_click_checkbox(browser, wait):
     except Exception as e:
         print(f"Could not click the checkbox. Exception: {e}")
 
-
-  
-
 # Submit application function
-def submit_application(browser, wait):
-    submit_button = wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")))
+def submit_application(browser):
+    submit_button = browser.find_element(By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")
     submit_button.click()
 
-# Main function
-# options = Options()
-# options.add_argument("--headless")
-# browser = webdriver.Chrome(options=options)
-# wait = WebDriverWait(browser, 3)
+# Login function
 login(browser, username, password)
-go_to_jobs_page(browser, wait)
+
+# Go to jobs page function
+go_to_jobs_page(browser)
 
 # Loop through jobs
 for i in range(50):
-    click_job_details(browser, wait)
-    select_subject(browser, wait)
-    get_name(browser, wait)
-    check_and_click_checkbox(browser, wait)
-    submit_application(browser, wait)
+    click_job_details(browser)
+    select_subject(browser)
+    get_name(browser)
+    check_and_click_checkbox(browser)
+    submit_application(browser)
     print("Applied to job", i + 1)
 
 
