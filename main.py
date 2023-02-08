@@ -31,13 +31,13 @@ def login(browser, username, password):
 # Go to jobs page function
 def go_to_jobs_page(browser):
     browser.find_element(By.CSS_SELECTOR, "#jobs-widget").click()
-    print("Clicked jobs widget")
+    # print("Clicked jobs widget")
 
 # Click job details function
 def click_job_details(browser):
     try:
         browser.find_element(By.CSS_SELECTOR, "#jobs-list > div:nth-child(1) > div > div > h3 > a").click()
-        print("Clicked job details")
+        # print("Clicked job details")
     except:
         print("No more jobs.")
         sys.exit()
@@ -52,7 +52,7 @@ def select_subject(browser):
 
     try:
         choose.select_by_visible_text(subject_text)
-        print("selected apprpriate template")
+        # print("selected apprpriate template")
     except NoSuchElementException:
         print("No option with text '{}' found in the select tag.".format(subject_text))
         
@@ -64,7 +64,7 @@ def get_name(browser):
     current_text = text_area.get_attribute("value")
     text_area.clear()
     text_area.send_keys(f"Hello {formatted_name}! " + current_text)
-    print("Got name and formatted it")
+    # print("Got name and formatted it")
 
 # Check and click checkbox function
 def check_and_click_checkbox(browser):
@@ -72,7 +72,7 @@ def check_and_click_checkbox(browser):
     try:
         checkbox = browser.find_element(By.CSS_SELECTOR, "#agree_partner_hourly_rate")
     except:
-        print("Checkbox not found.")
+        # print("Checkbox not found.")
         return
 
     try:
