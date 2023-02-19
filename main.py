@@ -33,14 +33,14 @@ def go_to_jobs_page(browser):
     browser.find_element(By.CSS_SELECTOR, "#jobs-widget").click()
     # print("Clicked jobs widget")
 
-# Click job details function
+# Click job details function       
 def click_job_details(browser):
     try:
         browser.find_element(By.CSS_SELECTOR, "#jobs-list > div:nth-child(1) > div > div > h3 > a").click()
         # print("Clicked job details")
+        return True
     except:
-        print("No more jobs.")
-        sys.exit()
+        return False
 
 
 # Select subject function
@@ -93,13 +93,17 @@ login(browser, username, password)
 go_to_jobs_page(browser)
 
 # Loop through jobs
-for i in range(50):
-    click_job_details(browser)
+i = 0
+while True:
+    if not click_job_details(browser):
+        print("No more jobs.")
+        break
     select_subject(browser)
     get_name(browser)
     check_and_click_checkbox(browser)
     submit_application(browser)
-    print("Applied to job", i + 1)
+    i += 1
+    print("Applied to job", i)
 
 
 browser.quit()
