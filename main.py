@@ -16,7 +16,7 @@ password = os.getenv("PASSWORD")
 
 # Setup web driver
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 browser = webdriver.Chrome(options=options)
 browser.implicitly_wait(1)
 
@@ -36,7 +36,7 @@ def go_to_jobs_page(browser):
 # Click job details function         
 def click_job_details(browser):
     try:
-        element = WebDriverWait(browser, 1).until(
+        element = WebDriverWait(browser, 2).until(
             EC.visibility_of_element_located((By.CSS_SELECTOR, "#jobs-list > div:nth-child(1) > div > div > h3 > a"))
         )
     except TimeoutException:
