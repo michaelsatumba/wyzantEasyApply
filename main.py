@@ -1,5 +1,4 @@
 # Description: This script will automatically apply to jobs on Wyzant.com
-import sys
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -7,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import Select
+from selenium.common.exceptions import TimeoutException
 from dotenv import load_dotenv
 
 # Load login credentials from .env file
@@ -18,7 +18,7 @@ password = os.getenv("PASSWORD")
 options = Options()
 options.add_argument("--headless")
 browser = webdriver.Chrome(options=options)
-browser.implicitly_wait(2)
+browser.implicitly_wait(1)
 
 # Login function
 def login(browser, username, password):
@@ -33,14 +33,23 @@ def go_to_jobs_page(browser):
     browser.find_element(By.CSS_SELECTOR, "#jobs-widget").click()
     # print("Clicked jobs widget")
 
-# Click job details function       
+# Click job details function         
 def click_job_details(browser):
     try:
-        browser.find_element(By.CSS_SELECTOR, "#jobs-list > div:nth-child(1) > div > div > h3 > a").click()
-        # print("Clicked job details")
+        element = WebDriverWait(browser, 1).until(
+            EC.visibility_of_element_located((By.CSS_SELECTOR, "#jobs-list > div:nth-child(1) > div > div > h3 > a"))
+        )
+    except TimeoutException:
+        print("timeout exception")
+        return False
+
+    try:
+        element.click()
         return True
     except:
+        print("Could not click job details")
         return False
+
 
 
 # Select subject function
