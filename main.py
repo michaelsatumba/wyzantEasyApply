@@ -16,7 +16,7 @@ password = os.getenv("PASSWORD")
 
 # Setup web driver
 options = Options()
-# options.add_argument("--headless")
+options.add_argument("--headless")
 browser = webdriver.Chrome(options=options)
 browser.implicitly_wait(1)
 
