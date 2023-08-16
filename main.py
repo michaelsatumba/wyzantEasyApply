@@ -16,17 +16,23 @@ password = os.getenv("PASSWORD")
 
 # Setup web driver
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 browser = webdriver.Chrome(options=options)
-browser.implicitly_wait(1)
+browser.implicitly_wait(5)
 
 # Login function
 def login(browser, username, password):
     browser.get('https://www.wyzant.com/login')
-    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[1]/input').send_keys(username)
-    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div/div[8]/form/div[2]/input').send_keys(password)
-    browser.find_element(By.CSS_SELECTOR, "#sso_login-landing > form > button").click()
+   
+    #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[1]/input
+    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[1]/input').send_keys(username)
+    #import pdb; pdb.set_trace()
+    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[2]/input').send_keys(password)
+   #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[2]/input
+    #import pdb; pdb.set_trace()
+    browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/button").click()
     print("Logged in")
+    #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/button
 
 # Go to jobs page function
 def go_to_jobs_page(browser):
