@@ -2,6 +2,8 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -17,7 +19,8 @@ password = os.getenv("PASSWORD")
 # Setup web driver
 options = Options()
 # options.add_argument("--headless")
-browser = webdriver.Chrome(options=options)
+service = Service(ChromeDriverManager().install())
+browser = webdriver.Chrome(service=service, options=options)
 browser.implicitly_wait(5)
 
 # Login function
