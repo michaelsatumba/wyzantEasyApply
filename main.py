@@ -40,7 +40,7 @@ def login(browser, username, password):
 # Go to jobs page function
 def go_to_jobs_page(browser):
     browser.find_element(By.CSS_SELECTOR, "#jobs-widget").click()
-    # print("Clicked jobs widget")
+    print("Clicked jobs widget")
 
 # Click job details function         
 def click_job_details(browser):
@@ -54,6 +54,7 @@ def click_job_details(browser):
 
     try:
         element.click()
+        print("Clicked job details")
         return True
     except:
         print("Could not click job details")
@@ -70,27 +71,36 @@ def select_subject(browser):
 
     try:
         choose.select_by_visible_text(subject_text)
-        # print("selected apprpriate template")
+        print(subject_text)
+        print("selected appropriate template")
     except NoSuchElementException:
         print("No option with text '{}' found in the select tag.".format(subject_text))
         
 # Get name and format it function
 def get_name(browser):
+    # Find the element that contains the name
     name = browser.find_element(By.CSS_SELECTOR, "#wyzantResponsiveColumns > div.columns.medium-8.small-12 > h4").text
+    # Capitalize the name
     formatted_name = name.capitalize()
+    # Find the text area element
     text_area = browser.find_element(By.CSS_SELECTOR, "#personal_message")
+    # Get current text from the text area
     current_text = text_area.get_attribute("value")
+    # Clear the existing text
     text_area.clear()
+    # Send the formatted greeting message
     text_area.send_keys(f"Hello {formatted_name}! " + current_text)
-    # print("Got name and formatted it")
+    # Print the formatted name in the console
+    print(f"Got name: {formatted_name} and formatted it")
 
 # Check and click checkbox function
 def check_and_click_checkbox(browser):
     checkbox = None
     try:
         checkbox = browser.find_element(By.CSS_SELECTOR, "#agree_partner_hourly_rate")
+        print("Found checkbox")
     except:
-        # print("Checkbox not found.")
+        print("Checkbox not found.")
         return
 
     try:
@@ -103,6 +113,7 @@ def check_and_click_checkbox(browser):
 def submit_application(browser):
     submit_button = browser.find_element(By.CSS_SELECTOR, "#job_application_form > input.btn.old-button-color ")
     submit_button.click()
+    print("Submitted application")
 
 # Login function
 login(browser, username, password)
@@ -123,6 +134,4 @@ while True:
     i += 1
     print("Applied to job", i)
 
-
 browser.quit()
-
