@@ -99,9 +99,20 @@ def check_and_click_checkbox(browser):
     try:
         checkbox = browser.find_element(By.CSS_SELECTOR, "#agree_partner_hourly_rate")
         print("Found checkbox")
-    except:
+    except Exception as e:
         print("Checkbox not found.")
-        return
+        try:
+            hourlyRate = browser.find_element(By.CSS_SELECTOR, "#job_application_form > div:nth-child(17) > div.columns.small-12.partner-rate-optional > p")
+            rate_text = hourlyRate.text  # "$ 70"
+            rate_parts = rate_text.split()  # ["$", "70"]
+            rate = float(rate_parts[1])  # 70.0
+            print(rate)
+            rateInput = browser.find_element(By.CSS_SELECTOR, "#hourly_rate")
+            rateInput.clear()  # Clear the input field
+            rateInput.send_keys(rate)  # Send the new rate
+            print(f"Entered hourly rate '{rate}'")
+        except Exception as e:
+            print("Hourly rate not found or could not be processed.")
 
     try:
         checkbox.click()
