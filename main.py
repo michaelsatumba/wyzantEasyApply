@@ -28,13 +28,16 @@ def login(browser, username, password):
     browser.get('https://www.wyzant.com/login')
    
     #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[1]/input
-    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[1]/input').send_keys(username)
+    #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[1]/input
+    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[3]/div/form/div[1]/input').send_keys(username)
     #import pdb; pdb.set_trace()
-    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[2]/input').send_keys(password)
+    browser.find_element(By.XPATH, '/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[3]/div/form/div[2]/input').send_keys(password)
+   #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[2]/input
    #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/div[2]/input
     #import pdb; pdb.set_trace()
-    browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/button").click()
+    browser.find_element(By.XPATH, "/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[3]/div/form/button").click()
     print("Logged in")
+    #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/button
     #/html/body/div[1]/div[3]/div[1]/div/div/div/div[2]/div[8]/div/div[2]/div/form/button
 
 # Go to jobs page function
